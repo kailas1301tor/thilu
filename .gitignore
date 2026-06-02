@@ -1,0 +1,7 @@
+# Documents (personal/sensitive)
+*.pdf
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
