@@ -1,0 +1,12 @@
+export function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('en-AU', {
+    style: 'currency',
+    currency: 'AUD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
+export function formatPercent(rate: number): string {
+  return `${(rate * 100).toFixed(2)}%`;
+}

@@ -1,0 +1,15 @@
+{
+  "monthlyPayment": 2636.94,
+  "totalPayment": 949298.4,
+  "totalInterest": 449298.4,
+  "breakdown": {
+    "loanAmount": 500000,
+    "term": 30,
+    "baseRate": 0.05,
+    "adjustedRate": 0.04845,
+    "creditMultiplier": 0.95,
+    "houseAgeMultiplier": 1.02,
+    "houseAgeCategory": "11-30",
+    "termInMonths": 360
+  }
+}

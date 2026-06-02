@@ -1,6 +1,10 @@
 # Documents (personal/sensitive)
 *.pdf
 
+# Dependencies & build
+node_modules
+dist
+
 # OS / editor
 .DS_Store
 .idea/
