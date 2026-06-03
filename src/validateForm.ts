@@ -1,52 +1,59 @@
-// validation only runs when they hit calculate - brief is strict about no form libraries
+// run when user clicks calculate
 
-type Form = {
+export function validateForm(f: {
   loanType: string;
   loanAmount: string;
   term: string;
   creditScore: string;
   houseAge: string;
-};
+}) {
+  const errors: Record<string, string> = {};
 
-export type FormErrors = Partial<Record<keyof Form, string>>;
+  if (f.loanType === '') {
+    errors.loanType = 'Loan type is required';
+  } else
+  if (
+    f.loanType !== 'Fixed rate' &&
+    f.loanType !== 'Variable rate' &&
+    f.loanType !== 'Interest only'
+  ) {
+    errors.loanType = 'Must be Fixed rate, Variable rate or Interest only';
+  }
 
-const loanTypes = ['Fixed rate', 'Variable rate', 'Interest only'];
-const scores = ['Excellent', 'Good', 'Fair', 'Poor'];
+  if (f.loanAmount === '') {
+    errors.loanAmount = 'Loan amount is required';
+  } else if (Number(f.loanAmount) <= 0) {
+    errors.loanAmount = 'Loan amount must be positive';
+  }
 
-export function validateForm(f: Form): FormErrors {
-  const e: FormErrors = {};
+  const termNum = Number(f.term);
+  if (f.term === '') {
+    errors.term = 'Term is required';
+  } else if (termNum <= 0) {
+    errors.term = 'Term must be positive';
+  } else if (f.loanType === 'Interest only') {
+    if (termNum > 10) errors.term = 'Interest only max 10 years';
+    if (termNum < 1) errors.term = 'Term min 1 year';
+  } else if (f.loanType === 'Fixed rate' || f.loanType === 'Variable rate') {
+    if (termNum > 30 || termNum < 1) errors.term = 'Term must be 1-30 years';
+  }
 
-  if (!f.loanType.trim()) e.loanType = 'Loan type is required.';
-  else if (!loanTypes.includes(f.loanType))
-    e.loanType = 'Pick Fixed rate, Variable rate, or Interest only.';
+  if (f.creditScore === '') {
+    errors.creditScore = 'Credit score is required';
+  } else if (
+    f.creditScore !== 'Excellent' &&
+    f.creditScore !== 'Good' &&
+    f.creditScore !== 'Fair' &&
+    f.creditScore !== 'Poor'
+  ) {
+    errors.creditScore = 'Invalid credit score';
+  }
 
-  const amount = Number(f.loanAmount);
-  if (!f.loanAmount.trim()) e.loanAmount = 'Loan amount is required.';
-  else if (!amount || amount <= 0) e.loanAmount = 'Loan amount must be positive.';
+  if (f.houseAge === '') {
+    errors.houseAge = 'House age is required';
+  } else if (Number(f.houseAge) < 0) {
+    errors.houseAge = 'House age cant be negative';
+  }
 
-  const term = Number(f.term);
-  if (!f.term.trim()) e.term = 'Term is required.';
-  else if (!term || term <= 0) e.term = 'Term must be a positive number.';
-  else if (f.loanType === 'Interest only' && (term < 1 || term > 10))
-    e.term = 'Interest only: term must be 1–10 years.';
-  else if (
-    (f.loanType === 'Fixed rate' || f.loanType === 'Variable rate') &&
-    (term < 1 || term > 30)
-  )
-    e.term = 'Fixed/Variable: term must be 1–30 years.';
-
-  if (!f.creditScore.trim()) e.creditScore = 'Credit score is required.';
-  else if (!scores.includes(f.creditScore))
-    e.creditScore = 'Choose Excellent, Good, Fair, or Poor.';
-
-  const age = Number(f.houseAge);
-  if (!f.houseAge.trim()) e.houseAge = 'House age is required.';
-  else if (age < 0 || Number.isNaN(age))
-    e.houseAge = 'House age must be zero or more.';
-
-  return e;
-}
-
-export function hasErrors(e: FormErrors) {
-  return Object.keys(e).length > 0;
+  return errors;
 }

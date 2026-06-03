@@ -1,11 +1,21 @@
-# thilu — A3 Home Loan Calculator
+# ZZZ Bank Home Loan Calculator
 
-React + TypeScript (Vite). ZZZ Bank loan form, manual validation, API via `src/api/loanApi.ts`, monthly payment in header with Context.
+React + TypeScript app built with Vite.
+
+## Setup
 
 ```bash
 npm install
 npm run dev
-npm test
 ```
 
-`output.json` = Postman/curl proof for Task 3a.
+Open http://localhost:5173
+
+## Other commands
+
+```bash
+npm test
+npm run build
+```
+
+`output.json` is the sample response from the calculate API (used during testing).

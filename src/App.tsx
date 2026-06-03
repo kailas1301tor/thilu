@@ -1,16 +1,8 @@
-import { createContext, useContext, useState } from 'react';
-import { Header } from './Header';
-import { LoanForm } from './LoanForm';
-
-// monthly payment in header has to use context - brief says no redux etc
-export const PaymentContext = createContext<{
-  monthly: number | null;
-  setMonthly: (n: number | null) => void;
-}>({ monthly: null, setMonthly: () => {} });
-
-export function usePayment() {
-  return useContext(PaymentContext);
-}
+import { useState } from 'react';
+import { Footer } from './components/Footer';
+import { Header } from './components/Header';
+import { MyForm } from './components/MyForm';
+import { PaymentContext } from './context/AppContext';
 
 export default function App() {
   const [monthly, setMonthly] = useState<number | null>(null);
@@ -20,11 +12,9 @@ export default function App() {
       <div className="d-flex flex-column min-vh-100">
         <Header />
         <main className="flex-grow-1">
-          <LoanForm />
+          <MyForm />
         </main>
-        <footer className="bg-light border-top py-3 mt-auto text-center text-muted small">
-          <p className="mb-0">ZZZ Bank © {new Date().getFullYear()} — estimates only, not an offer</p>
-        </footer>
+        <Footer />
       </div>
     </PaymentContext.Provider>
   );
