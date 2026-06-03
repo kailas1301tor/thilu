@@ -1,30 +1,27 @@
-// interest only loans should not allow more than 10 years
+// checking interest only cant go over 10 years
 import { describe, expect, it } from 'vitest';
-import { validateForm } from '../validateForm';
+import { validateForm } from '../MyForm';
 
-describe('validation', () => {
-  it('should fail interest only when term is 15', () => {
-    const errors = validateForm({
+describe('validateForm', () => {
+  it('interest only term 15 should error', () => {
+    const e = validateForm({
       loanType: 'Interest only',
-      loanAmount: '400000',
+      loanAmount: '100000',
       term: '15',
       creditScore: 'Good',
-      houseAge: '2',
+      houseAge: '1',
     });
-
-    expect(errors.term).toBeDefined();
-    expect(Object.keys(errors).length).toBeGreaterThan(0);
+    expect(e.term).toBeTruthy();
   });
 
-  it('should pass a valid fixed rate form', () => {
-    const errors = validateForm({
+  it('fixed rate 30 years ok', () => {
+    const e = validateForm({
       loanType: 'Fixed rate',
       loanAmount: '500000',
       term: '30',
       creditScore: 'Excellent',
-      houseAge: '30',
+      houseAge: '10',
     });
-
-    expect(Object.keys(errors).length).toBe(0);
+    expect(Object.keys(e).length).toBe(0);
   });
 });

@@ -1,6 +1,3 @@
-// POST loan details to the backend
-const URL = 'https://a3-loan.onrender.com/calculate';
-
 export async function calculateLoan(data: {
   loanType: string;
   loanAmount: number;
@@ -8,15 +5,11 @@ export async function calculateLoan(data: {
   creditScore: string;
   houseAge: number;
 }) {
-  const res = await fetch(URL, {
+  const res = await fetch('https://a3-loan.onrender.com/calculate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
-
-  if (!res.ok) {
-    throw new Error('bad response');
-  }
-
+  if (!res.ok) throw new Error('fail');
   return res.json();
 }
